@@ -10,7 +10,7 @@ import { GrStatusInfo, GrLanguage } from 'react-icons/gr'
 import { LuCalendarDays } from "react-icons/lu";
 import { MdOutlineVideoLibrary, MdAccessTime } from "react-icons/md";
 import Skeleton from 'react-loading-skeleton'
-
+import VidPlay from '../components/VidPlay'
 
 function Details() {
 
@@ -30,6 +30,10 @@ function Details() {
   const { data: similar } = useFetch(`${params.explore}/${params.id}/similar`)
   const { data: recommendatoins } = useFetch(`${params.explore}/${params.id}/recommendations`)
 
+
+  // play video state
+  const [playVideo, setPlayVideo] = useState(false)
+  const [playVideoId, setPlayVideoId] = useState('')
 
   // duration
   const duration = (Number(data?.runtime) / 60).toFixed(1).split('.')
@@ -53,15 +57,26 @@ function Details() {
 
   console.log(data)
 
+
+
+  const handlePlayVid = (data) => {
+    setPlayVideoId(data)
+    setPlayVideo(true)
+  }
+  
+  
+  
+  
+  
   return (
-    <div>
+    <div className='overflow-hidden'>
 
       {/* banner */}
       <div className="w-full h-[300px] lg:h-[50vh] relative">
 
         {/* img */}
         {
-          dataLoading ? <Skeleton height={400} className='opacity-15'/> :
+          dataLoading ? <Skeleton height={400} className='opacity-15' /> :
             <>
               <div className='w-full h-full'>
                 <img src={imgURL + data?.backdrop_path} alt={data.title}
@@ -82,8 +97,13 @@ function Details() {
             <div className="-mt-36 lg:-mt-40 relative mx-auto lg:mx-0 w-fit min-w-60">
               <img src={imgURL + data?.poster_path} alt={data.title}
                 className='h-80 w-60 object-cover rounded shadow' />
+
+              <button onClick={() => handlePlayVid(data)} className='bg-white px-4 py-3 w-full  text-black font-bold text-lg rounded my-4 hover:bg-gradient-to-l from-red-700 to-orange-500 shadow-md transition-all hover:scale-105'>
+                Play Now
+              </button>
             </div>
         }
+
 
         {/* text data & cast*/}
         <div className="text-center lg:text-left">
@@ -253,8 +273,7 @@ function Details() {
       </div>
 
 
-
-
+      {playVideo && <VidPlay data={playVideoId} close={() => setPlayVideo(false)} mediaType={params?.explore}/>}
 
     </div>
   )
