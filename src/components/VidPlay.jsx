@@ -6,9 +6,10 @@ function VidPlay({ data, close, mediaType }) {
 
     const {data: videoData} = useFetch(`${mediaType}/${data.id}/videos`)
 
-    const [trailer] = videoData?.filter(vid => vid?.name === "Official Trailer")
+    // console.log(videoData)
+    const [trailer] = videoData?.filter(vid => vid?.type === "Trailer")
 
-    console.log(trailer)
+    console.log(trailer?.key)
     return (
         <section className='fixed w-full bg-neutral-700 top-0 right-0 left-0 bottom-0 z-40 bg-opacity-60 flex items-center justify-center'>
             <div className="bg-black w-full md:w-[80%] max-h-[80vh]  max-w-screen-lg rounded-lg aspect-video relative group">
@@ -17,9 +18,8 @@ function VidPlay({ data, close, mediaType }) {
                     <IoClose />
                 </button>
 
-                <iframe src={`https://www.youtube.com/embed/${trailer?.key}}]`} className='w-full h-full
-                '/>
-
+                <iframe src={`https://www.youtube.com/embed/${trailer?.key}`} className='w-full h-full'/>
+                
             </div>
         </section>
     )
