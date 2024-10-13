@@ -55,10 +55,6 @@ function Details() {
   }, [params.id])
 
 
-  console.log(data)
-
-
-
   const handlePlayVid = (data) => {
     setPlayVideoId(data)
     setPlayVideo(true)
